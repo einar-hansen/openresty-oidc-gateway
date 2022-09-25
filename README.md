@@ -47,7 +47,7 @@ docker run -it --rm -v "$(pwd)":/app -w /app php:8.1-fpm-alpine php artisan migr
 # From project root.
 cd app
 
-docker run -it --rm -v "$(pwd)":/app -w /app node:alpine npm install
+docker run -it --rm -v "$(pwd)":/app -w /app node:alpine npm install && next build
 ```
 
 # Running
