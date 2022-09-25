@@ -1,0 +1,58 @@
+version: '3'
+services:
+    app:
+        image: node:alpine
+        restart: always
+        working_dir: /app
+        entrypoint: sh -c "npm install && npm run dev"
+        volumes:
+            - './app:/app'
+        networks:
+            - hansen
+    api:
+        image: hansen/laravel-api
+        build:
+            context: ./api/docker
+            dockerfile: Dockerfile
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        volumes:
+            - './api:/var/www/html'
+        networks:
+            - hansen
+        depends_on:
+            - redis
+    redis:
+        image: 'redis:alpine'
+        volumes:
+            - 'redis:/data'
+        networks:
+            - hansen
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            retries: 3
+            timeout: 5s
+    openresty:
+        image: openresty/gateway
+        build:
+            context: ./openresty
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./openresty/conf:/usr/local/openresty/nginx/conf/
+            - "/run/docker.sock:/var/run/docker.sock:ro"
+        networks:
+            - hansen
+        depends_on:
+            - app
+            - api
+            - redis
+networks:
+    hansen:
+        driver: bridge
+volumes:
+    redis:
+        driver: local
