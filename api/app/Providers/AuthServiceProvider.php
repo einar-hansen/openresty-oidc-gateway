@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
                             'sub' => $request->header('x-auth-subject'),
                         ], [
                             'name' => $request->header('x-auth-name'),
-                            'email' => $request->header('x-auth-emai'),
+                            'email' => $request->header('x-auth-email'),
                         ]);
                     }
 
