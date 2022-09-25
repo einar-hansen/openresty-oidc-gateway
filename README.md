@@ -1,7 +1,7 @@
 # Overview
-This is an implementation of a gateway “service” useing OpenResty. OpenResty is based on Nginx, and in this case will work as an Nginx reverse proxy. In addiditon to beeing a reverse-proxy, it will authenticate every request via Auth0 using OpenId Connect.
+This is an implementation of a gateway “service” using OpenResty. OpenResty is based on Nginx, and in this case will work as an Nginx reverse proxy. In addiditon to beeing a reverse-proxy, it will authenticate every request via Auth0 using OpenId Connect.
 
-The project has a NextJS frontend, and a Laravel API service. 
+The project has a NextJS frontend, and a Laravel API service. It can be extended with as many services as you would like, as illustrated below.
 
 ![Concept illustration](https://github.com/einar-hansen/openresty-oidc-gateway/blob/main/image.jpg?raw=true)
 
@@ -83,7 +83,7 @@ You should add the credentials to the `.env` file.
 
 In the `config/auth.php` file I've added a new guard. Check out [Laravels documentation for creating a custom guard](https://laravel.com/docs/9.x/authentication#closure-request-guards). 
 
-It's probably not the best idea to use `firstOrCreate` in the guard, be we are doing it for now as we naivly trus the values from OpenResty. In production you should probably add some more checks before automatically creating an user based on the data from the headers.
+It's probably not the best idea to use `firstOrCreate` in the guard, be we are doing it for now as we naivly trust the values from OpenResty. In production you should probably add some more checks before automatically creating an user based on the data from the headers.
 ```php
 ...
 'guards' => [
