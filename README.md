@@ -43,26 +43,33 @@ docker run -it --rm -v "$(pwd)":/app -w /app php:8.1-fpm-alpine php artisan migr
 ```
 
 ## NextJS
+```bash
+# From project root.
+cd app
 
-touch database/database.sqlite
-cp .env.example .env
-php artisan migrate
-
-Fill inn the .env file:
-```
-AUTH0_DOMAIN=
-AUTH0_CLIENT_ID=
-AUTH0_CLIENT_SECRET=
-AUTH0_AUDIENCE=
+docker run -it --rm -v "$(pwd)":/app -w /app node:alpine npm install
 ```
 
-Prepare openresty
+# Running
 
+You are now ready to run the app. Go ahead and start docker and try the URL's in your browser.
 
+```bash
+# From the project root dir
+docker-compose -f docker-compose.yml up
+# or as a daemon, but I like to see the log
+docker-compose -f docker-compose.yml up -d
+```
 
-Now edit the file and add the auth0 credentials
+Visit one of the project URL's in the browser:
 
-## Laravel
+- NextJS [http://0.0.0.0](http://0.0.0.0)
+- Laravel public route [http://0.0.0.0/web](http://0.0.0.0/web)
+- Laravel private route [http://0.0.0.0/api/user](http://0.0.0.0/api/user)
+- Log out route [http://0.0.0.0/logout](http://0.0.0.0/logout)
+
+## About Laravel App
+
 The app is for demo purpose only, so we are using a sqlite database. We have also slimmed down the user migrations file and added a `sub` column. 
 
 You should add the credentials to the `.env` file.
@@ -80,8 +87,8 @@ It's probably not the best idea to use `firstOrCreate` in the guard, be we are d
 ],
 
 'audience' => [
-    env('AUTH0_CLIENT_ID'),
-    env('AUTH0_AUDIENCE'),
+    env('AUTH0_CLIENT_ID'), // To allow for traditional server APP - OIDC
+    env('AUTH0_AUDIENCE'), // To check audience on API Tokens
 ],
 ```
 
@@ -108,20 +115,3 @@ public function boot()
         );
 }
 ```
-
-# Starting
-
-
-```bash
-# From the project root dir
-docker-compose -f docker-compose.yml up
-# or as a daemon, but I like to see the log
-docker-compose -f docker-compose.yml up -d
-```
-
-Visit one of the project URL's in the browser:
-
-- NextJS [http://0.0.0.0](http://0.0.0.0)
-- Laravel public route [http://0.0.0.0/web](http://0.0.0.0/web)
-- Laravel private route [http://0.0.0.0/api/user](http://0.0.0.0/api/user)
-- Log out route [http://0.0.0.0/logout](http://0.0.0.0/logout)
