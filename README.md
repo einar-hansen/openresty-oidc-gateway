@@ -1,5 +1,12 @@
-# Getting Started
+# Overview
+This is an implementation of a gateway “service” useing OpenResty. OpenResty is based on Nginx, and in this case will work as an Nginx reverse proxy. In addiditon to beeing a reverse-proxy, it will authenticate every request via Auth0 using OpenId Connect.
 
+The project has a NextJS frontend, and a Laravel API service. 
+
+![Concept illustration](https://github.com/einar-hansen/openresty-oidc-gateway/blob/main/image.jpg?raw=true)
+
+
+# Getting Started
 Clone repository
 ```bash
 git clone https://github.com/einar-hansen/openresty-oidc-gateway.git 
